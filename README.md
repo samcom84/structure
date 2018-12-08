@@ -14,15 +14,18 @@ Step 1. Add the JitPack repository to your build file
 	}
   
 Step 2. Add the dependency in app level build.gradle
+	
 	dependencies {
 	        implementation 'com.github.samcom84:structure:1.01'
 	}
   
 Step 3. Apply plugin in Module(app)
-    	apply plugin: 'realm-android'
+    	
+	apply plugin: 'realm-android'
 
 Step 4. add dependency in project level build.gradle
-   	classpath "io.realm:realm-gradle-plugin:5.3.1"  (can be latest version)
+   	
+	classpath "io.realm:realm-gradle-plugin:5.3.1"  (can be latest version)
    
 Step 5. create your Application class
 
