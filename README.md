@@ -7,101 +7,101 @@ add permission to manifest.xml
     
 Step 1. Add the JitPack repository to your build file
 
-allprojects {
+	allprojects {
 		repositories {
 			maven { url 'https://jitpack.io' }
 		}
 	}
   
 Step 2. Add the dependency in app level build.gradle
-dependencies {
+	dependencies {
 	        implementation 'com.github.samcom84:structure:1.01'
 	}
   
 Step 3. Apply plugin in Module(app)
-    apply plugin: 'realm-android'
+    	apply plugin: 'realm-android'
 
 Step 4. add dependency in project level build.gradle
-   classpath "io.realm:realm-gradle-plugin:5.3.1"  (can be latest version)
+   	classpath "io.realm:realm-gradle-plugin:5.3.1"  (can be latest version)
    
 Step 5. create your Application class
 
-public class ApplicationApp extends App {
+	public class ApplicationApp extends App {
 
-    private static final String DATABASE_NAME = "db_name.realm"; //database name
-    private static final int DATABASE_VERSION = 1;// datbase version
-    private static ApplicationApp _intance = null;
+	    private static final String DATABASE_NAME = "db_name.realm"; //database name
+	    private static final int DATABASE_VERSION = 1;// datbase version
+	    private static ApplicationApp _intance = null;
 
-    public ApplicationApp() {
-        _intance = this;
-    }
+	    public ApplicationApp() {
+		_intance = this;
+	    }
 
-    public static Context getContext() {
-        return _intance;
-    }
+	    public static Context getContext() {
+		return _intance;
+	    }
 
-    public static synchronized ApplicationApp getInstance() {
-        return _intance;
-    }
+	    public static synchronized ApplicationApp getInstance() {
+		return _intance;
+	    }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
+	    @Override
+	    public void onCreate() {
+		super.onCreate();
 
-        RealmConfiguration mRealmConfiguration = new RealmConfiguration.Builder()
-                .name(DATABASE_NAME)
-                .schemaVersion(DATABASE_VERSION)
-                .modules(new AppModule(),Realm.getDefaultModule())  //AppModule is a RealmModule class. You have to create it in your project
-                .deleteRealmIfMigrationNeeded()
-                .build();
+		RealmConfiguration mRealmConfiguration = new RealmConfiguration.Builder()
+			.name(DATABASE_NAME)
+			.schemaVersion(DATABASE_VERSION)
+			.modules(new AppModule(),Realm.getDefaultModule())  //AppModule is a RealmModule class. You have to create it in your project
+			.deleteRealmIfMigrationNeeded()
+			.build();
 
-        Realm.setDefaultConfiguration(mRealmConfiguration);
-        Realm.getInstance(mRealmConfiguration);
+		Realm.setDefaultConfiguration(mRealmConfiguration);
+		Realm.getInstance(mRealmConfiguration);
 
-        //if you are implementing api's then set your base url here 
-        ServiceHelper.setBaseUrl("BASE_URL");
-    }
-}
+		//if you are implementing api's then set your base url here 
+		ServiceHelper.setBaseUrl("BASE_URL");
+	    }
+	}
 
 Step 6. create a RealmModule class in your project
   
- @RealmModule(library = true, allClasses = true)
-public class AppModule extends MyLibraryModule {
+	 @RealmModule(library = true, allClasses = true)
+	public class AppModule extends MyLibraryModule {
 
-}
+	}
 
 it will extends with MyLibraryModule and body will be blank 
 
 Now steps for any api calling 
 
 Step 1. create an ServiceInterface interface for retrofit api methods 
-public interface ServiceInterface {
 
-    @POST("API METHOD")
-    Call<ServiceResponse> methodName(@Body JsonObject jsonObject);
-
-}
+	public interface ServiceInterface {
+	    @POST("API METHOD")
+	    Call<ServiceResponse> methodName(@Body JsonObject jsonObject);
+	}
 
 
 Step 2. create RealmObject class which store data 
-  public class CallsInfo extends RealmObject {
-    @PrimaryKey
-    private String id;
-    private String name;
-    //declare all variable here 
-    //variable key should same as response keys.
-    //there should be a primary key in object
-    //implement getter and setter
-}
+	
+	public class CallsInfo extends RealmObject {
+	    @PrimaryKey
+	    private String id;
+	    private String name;
+	    //declare all variable here 
+	    //variable key should same as response keys.
+	    //there should be a primary key in object
+	    //implement getter and setter
+	}	
   
 Step 3. create a apiList class for particular info class 
 for example :-  CallsList for CallsInfo
 
-public class CallsList extends BaseList<CallsInfo> {
-    private static volatile CallsList _instance = null;
-    private ServiceInterface mInterface;
-    private ModelDelegates.ModelDelegate<CallsInfo> m_delegate = null;
-    private Realm realm;
+	public class CallsList extends BaseList<CallsInfo> {
+	    private static volatile CallsList _instance = null;
+	    private ServiceInterface mInterface;
+	    private ModelDelegates.ModelDelegate<CallsInfo> m_delegate = null;
+	    private Realm realm;
 
     private CallsList() {
         super(CallsInfo.class);
@@ -191,12 +191,12 @@ public class CallsList extends BaseList<CallsInfo> {
         }
     }
 
-}
+	}
 
 
 How to call api in MainActivity.class
 
-public class MainActivity extends BaseActivity {
+	public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -224,7 +224,7 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
-}
+	}
 
 
 
